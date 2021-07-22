@@ -1,0 +1,67 @@
+/* 右侧外层 */
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 1000px;
+  overflow: hidden;
+}
+/* header */
+/* header left */
+.page-header .header-left {
+  flex: inherit;
+}
+.page-header .header-left ul li a {
+  color: #999;
+  position: relative;
+  width: 120px;
+  overflow: hidden;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* header right*/
+.page-header .header-right {
+  margin-left: 15px;
+}
+
+/* 内容编辑区 */
+.box-edit-monaco {
+  display: flex;
+  /* height: calc(100vh - 146px); */
+  overflow: scroll;
+  flex-grow: 1;
+}
+
+/* footer */
+.IED-night-ant-form > .ant-row{
+  display:flex;
+  align-items: center;
+  flex-wrap:wrap;
+}
+.IED-night-ant-form .diy-ant-row{
+  margin:5px 0;
+  flex:0 0 50%;
+  align-items: center;
+}
+.IED-night-ant-form .diy-ant-row .col-long{
+  flex: 1;
+  min-width: 300px;
+  max-width: 70%;
+}
+.IED-night-ant-form .diy-ant-row .col-long .ant-row{align-items: center;}
+.IED-night-ant-form .diy-ant-row .col-short{
+  flex: 1;
+  min-width: 100px;
+  max-width: 30%;
+  margin-top:0!important;
+}
+.IED-night-ant-form .diy-ant-row .ant-form-item-label{
+  min-width:42px;
+}
+.IED-night-ant-form .label-select-box{margin-top:0;}
+@media screen and (max-width:1200px){
+  .IED-night-ant-form .diy-ant-row{
+    flex:0 0 100%
+  }
+}

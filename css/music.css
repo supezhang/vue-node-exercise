@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+.music-wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  background: #efefef;
+}
+.music-wrap .music-content {
+  height: 80vh;
+  width: 75%;
+  margin: auto;
+  background: url(../images/nature-10.jpg) no-repeat center;
+  background-size: cover;
+  border-radius: 6px;
+}
+header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #5d78ff;
+}
+header .logo {
+  font-size: 24px;
+  color: #fff;
+}
+header .search-box {
+  margin-left: auto;
+  position: relative;
+}
+header .search-box input {
+  outline: none;
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0 32px 0 12px;
+  height: 24px;
+}
+header .search-box .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #f00;
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 1;
+  cursor: pointer;
+}
+.main {
+  display: flex;
+  align-items: flex-start;
+  height: calc(80vh - 120px);
+}
+.main .music-card,
+.main .music-list,
+.main .hot-comment {
+  height: 100%;
+}
+.main .music-list {
+  flex: 0 0 200px;
+  overflow: auto;
+}
+.main .music-list li {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+.main .music-list li:hover,
+.main .music-list li.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+.main .music-list li .play-icon {
+  flex: 0 0 20px;
+  height: 20px;
+  border: 1px solid #f00;
+  cursor: pointer;
+}
+.main .music-list li .name {
+  flex: 1;
+  font-size: 14px;
+  margin: 0 5px;
+  font-weight: normal;
+}
+.main .music-list li .mv-icon {
+  flex: 0 0 20px;
+  height: 20px;
+  border: 1px solid #f00;
+  cursor: pointer;
+}
+.main .music-card {
+  flex: 1;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  position: relative;
+}
+.main .music-card .pic-needle {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 9;
+  width: 50px;
+  height: 80px;
+  border: 1px solid #00f;
+}
+.main .music-card .pic-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  z-index: 1;
+  border: none;
+}
+.main .music-card .pic-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  z-index: 2;
+  background: #fafafa;
+}
+.main .music-card .pic-bg,
+.main .music-card .pic-bar {
+  animation: move 5s infinite linear;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+@keyframes move {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.main .music-card.playing .pic-bg,
+.main .music-card.playing .pic-bar {
+  animation-play-state: running;
+}
+.main .hot-comment {
+  flex: 0 0 200px;
+  padding: 12px ;
+  overflow: auto;
+}
+.main .hot-comment h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+  line-height: 1;
+}
+.main .hot-comment .comment-item {
+  display: flex;
+  align-items: flex-start;
+}
+.main .hot-comment .comment-item + .comment-item {
+  margin-top: 14px;
+}
+.main .hot-comment .comment-item .user-avater {
+  flex: 0 0 35px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid #999;
+  overflow: hidden;
+}
+.main .hot-comment .comment-item .user-avater img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.main .hot-comment .comment-item .comment-content {
+  margin-left: 10px;
+}
+.main .hot-comment .comment-item .comment-content .user-name {
+  font-size: 14px;
+  color: #333;
+}
+.main .hot-comment .comment-item .comment-content .user-comment {
+  font-size: 12px;
+  color: #999;
+}
+.main .video-content video,
+.main .video-content .mask {
+  position: fixed;
+}
+.main .video-content .mask {
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.main .video-content video {
+  width: 50%;
+  height: 50vh;
+  left: 25%;
+  top: 25%;
+  z-index: 19;
+  outline: none;
+  border: none;
+}
+footer audio {
+  height: 50px;
+  width: 100%;
+  border-radius: 0;
+  background: #fff;
+  outline: none;
+}

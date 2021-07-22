@@ -1,0 +1,181 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin-bottom: 50px;
+}
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+}
+.count-box button {
+  width: 60px;
+  height: 32px;
+}
+.count-box span {
+  text-align: center;
+  display: inline-block;
+  width: 60px;
+  background-color: #fff;
+}
+.v-show-box img {
+  height: 120px;
+}
+.notebook-box * {
+  box-sizing: border-box;
+}
+.notebook-box {
+  width: 50%;
+  margin: 20px auto;
+}
+.notebook-box .edit-area {
+  width: 100%;
+  border: 1px solid #ccc;
+  height: 32px;
+  line-height: 32px;
+  outline: none;
+  padding: 0 12px;
+}
+.notebook-box h2 {
+  text-align: center;
+  color: #ffaacc;
+}
+.notebook-box ul {
+  box-shadow: 0 0 3px #999;
+  padding: 10px 0;
+}
+.notebook-box ul li {
+  background: #fff;
+  line-height: 32px;
+  padding: 0 12px;
+  display: flex;
+  color: #666;
+}
+.notebook-box ul li + li {
+  border-top: 1px solid #ccc;
+}
+.notebook-box ul li .des {
+  margin: 0 5px;
+}
+.notebook-box ul li .del {
+  margin-left: auto;
+  opacity: 0;
+  transition: 0.3s;
+  color: #f99;
+  cursor: pointer;
+}
+.notebook-box ul li:hover .del {
+  opacity: 1;
+}
+.notebook-box footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc;
+  padding: 5px 12px;
+}
+.notebook-box footer .clear {
+  cursor: pointer;
+}
+.notebook-box footer .clear:hover {
+  color: #333;
+}
+.joke-box ul li {
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #999;
+  padding: 5px 4px;
+}
+.joke-num {
+  width: 40px;
+  height: 32px;
+  outline: none;
+}
+.get-joke {
+  width: 80px;
+  height: 38px;
+  outline: none;
+  vertical-align: top;
+  margin-left: 10px;
+}
+.weather-box {
+  text-align: center;
+}
+.weather-content {
+  margin: 20px 0;
+}
+.weather-list {
+  column-count: 5;
+  column-gap: 30px;
+}
+.weather-list li {
+  text-align: center;
+  font-size: 14px;
+}
+.weather-list .type {
+  font-size: 20px;
+  color: #f9a;
+}
+.weather-list .comperte {
+  font-size: 14px;
+  color: #f9a;
+  margin: 10px 0;
+}
+.weather-list .date {
+  color: #ccc;
+}
+.serach-content {
+  width: 50%;
+  margin: auto;
+  display: flex;
+}
+.serach-content input:first-child {
+  flex: 1;
+}
+.serach-content input:last-child {
+  width: 100px;
+  margin-left: -1px;
+}
+.hot-city {
+  width: 50%;
+  margin: auto;
+  text-align: left;
+}
+.hot-city span {
+  font-size: 12px;
+  cursor: pointer;
+}
+.serach-content {
+  font-size: 0;
+}
+.serach-content input {
+  height: 32px;
+  outline: none;
+  font-size: 14px;
+}
+.isred {
+  color: #f00;
+}
+.h6s h6 {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #000;
+}
+.h6s {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+.books-shopping-car table {
+  border-collapse: collapse;
+}
+.books-shopping-car table td,
+.books-shopping-car table th {
+  border: 1px solid #ccc;
+  padding: 5px 12px;
+}

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue基础</title>    
+    <link rel="stylesheet" href="css/vuebase.css">
+    <style>
+        :root .a{
+            color:#f00;
+        }
+        :root .c{
+            color:#ff0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="test-root">
+            <div class="a">a</div>
+            <div class="b">a</div>
+            <div class="c">a</div>
+        </div>
+        <button id="wx" @click="getwx">微信</button>
+        <h3>{{getFullName()}}</h3>
+        <h3>{{fullName}}</h3>
+        <ul>
+            <li v-for="item in books">{{item.name}}:{{item.price}}</li>
+        </ul>
+        <h3>总价格：{{totalPrice}}</h3>
+        <div class="weather-box">
+            <h2>天知道</h2>
+            <div class="serach-content">
+                <input type="text" placeholder="城市" v-model="city" @keyup.enter="searchWeather">
+                <input type="button" value="搜索" @click="searchWeather">
+            </div>
+            <div class="hot-city">
+                <span @click="changeCity('北京')">北京</span>
+                <span @click="changeCity('上海')">上海</span>
+                <span @click="changeCity('广州')">广州</span>
+                <span @click="changeCity('深圳')">深圳</span>
+            </div>
+            <div class="weather-content">
+                <ul class="weather-list">
+                    <li v-for="item in weatherList">
+                        <div class="type">{{item.type}}</div>
+                        <div class="comperte"><b>{{item.low}}</b> ~ <b>{{item.high}}</b></div>
+                        <div class="date">{{item.date}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="joke-box">
+            <input type="number" v-model="joke_num" class="joke-num"><input class="get-joke" type="button" value="获取笑话" @click="getJoke">
+            <ul>
+                <li v-for="(item,index) in jokes">{{index+1}}.{{item}}</li>
+            </ul>
+        </div>
+        <div class="notebook-box">
+            <h2>小黑记事本</h2>
+            <div class="notebook-edit-content">
+                <input type="text" placeholder="好好学习，天天向上" class="edit-area" v-model="edit_area" @keyup.enter="addNotebook">
+                <ul>
+                    <li v-for="(item,index) in notebook">
+                        <div class="num">{{index+1}}.</div>
+                        <div class="des">{{item}}</div>
+                        <span class="del" @click="delItem(index)">×</span>
+                    </li>
+                </ul>
+                <footer>
+                    <span class="count">{{notebook.length}}items</span>
+                    <span class="clear" @click="clearItem">clear</span>
+                </footer>
+            </div>
+        </div>
+        <div class="v-show-box">
+            <input type="button" value="累加年龄" @click="addAge">
+            <img v-show="age>=18" src="images/nature-1.jpg" alt="">
+            <input type="button" value="切换显示状态" @click="changeIsShow">
+            <img v-show="isShow" src="images/nature-1.jpg" alt="">
+            
+        </div>
+        <div class="count-box">
+            <button @click="sub">-</button>
+            <span>{{count}}</span>
+            <button @click="add">+</button>
+        </div>
+        <h2 @click="changeFood">{{food}}</h2>
+        <input type="button" value="v-on指令" v-on:click="doIt">
+        <input type="button" value="v-on简写" @click="doIt">
+        <input type="button" value="双击事件" @dblclick="doIt">
+        <ul>
+            <li v-for="(item,index) in list_test" :class="{isred:currentIndex===index}" @click="isReds(index)">{{item}}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li>{{list_obj.a}}</li>
+        </ul>
+        <h2 v-text="message+'。。。'">深圳</h2>
+        <h2 v-html="msg2+'。。。'">深圳</h2>
+        <h2 v-html="message"></h2>
+        <div class="h6s" @click="clickFather">
+            <h6>1</h6>
+            <h6>2</h6>
+            <h6>3</h6>
+            <h6 @click.stop="testEvent(123,$event)">4</h6>
+        </div>
+        <form action="baidu">
+            <input type="submit" @click.prevent="clickSubmit">
+            <input type="button" @click.once="onceFun" value="仅点击一次">
+        </form>
+        <form>
+            <span v-if="isUser">
+                <label for="username">用户账号:</label>
+                <input type="text" id="username" placeholder="用户账号" key="username">
+            </span>
+            <span v-else>
+                <label for="useremail">用户邮箱:</label>
+                <input type="text" id="useremail" placeholder="用户邮箱" key="useremail">
+            </span>            
+            <button @click.prevent="changeStyle">切换类型</button>
+        </form>
+        <form>
+            <span v-show="isUser">
+                <label for="username">用户账号:</label>
+                <input type="text" id="username" placeholder="用户账号" key="username1">
+            </span>
+            <span v-show="!isUser">
+                <label for="useremail">用户邮箱:</label>
+                <input type="text" id="useremail" placeholder="用户邮箱" key="useremail1">
+            </span>            
+            <button @click.prevent="changeStyle">切换类型</button>
+        </form>
+        <h2>书籍购物车</h2>
+        <div class="books-shopping-car">
+            <table>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>书籍名称</th>
+                        <th>出版日期</th>
+                        <th>价格</th>
+                        <th>购买数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in books">
+                        <td>{{index+1}}</td>
+                        <td>{{item.date}}</td>
+                        <td>{{item.name}}</td>
+                        <!-- <td>￥{{item.price.toFixed(2)}}</td> -->
+                        <td>{{item.price | showPrice}}</td>
+                        <td><button :disabled="item.count==0" @click="less(index)">-</button> {{item.count}} <button @click="plus(index)">+</button></td>
+                        <td><button @click="del(index)">移除</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" v-show="this.books.length<=0">购物车为空</td>                       
+                    </tr>
+                </tbody>
+            </table>
+            <div>总价：{{totalPrice2}}</div>
+        </div>
+        <hr>
+        <p>v-model 结合radio</p>
+        <div>
+            <label for="man">
+                <input type="radio" id="man" v-model="sex" value="男">男
+            </label>
+            <label for="woman">
+                <input type="radio" id="woman" v-model="sex" value="女">女
+            </label>
+            <p>选中：{{sex}}</p>
+        </div>
+        <hr>
+        <p>v-model checkbox</p>
+        <div>
+            <label for="agree">
+                <input type="checkbox" id="agree" v-model="isAgree">同意协议
+            </label>
+            <p>选择：{{isAgree}}</p>
+            <button :disabled="!isAgree">下一步</button>
+        </div>
+        <hr>
+        <div>
+            <input type="checkbox" value="篮球" v-model="hobbies">篮球
+            <input type="checkbox" value="足球" v-model="hobbies">足球
+            <input type="checkbox" value="冰球" v-model="hobbies">冰球
+            <input type="checkbox" value="铅球" v-model="hobbies">铅球
+            <h2>你的爱好：{{hobbies.toString()}}</h2>
+        </div>
+        <hr>
+        <p>v-model select</p>
+        <div>
+            <select name="abc" v-model="fruit">
+                <option value="苹果">苹果</option>
+                <option value="香蕉">香蕉</option>
+                <option value="桔子">桔子</option>
+                <option value="葡萄">葡萄</option>
+                <option value="凤梨">凤梨</option>
+            </select>
+            <p>选择的水果：{{fruit}}</p>
+            <select name="abc" v-model="fruits" multiple>
+                <option value="苹果">苹果</option>
+                <option value="香蕉">香蕉</option>
+                <option value="桔子">桔子</option>
+                <option value="葡萄">葡萄</option>
+                <option value="凤梨">凤梨</option>
+            </select>
+            <p>选择的水果：{{fruits.toString()}}</p>
+            <hr>
+            <div>
+                <label v-for="item in originHobbies" :for="item">
+                    <input type="checkbox" :id="item" :value="item" v-model="hobbies">{{item}}
+                </label>
+                <h2>你的爱好：{{hobbies.toString()}}</h2>
+            </div> 
+            <hr>
+            <p>修饰符</p>
+            <div>
+                <input type="text" v-model.lazy="msg">
+                <p>{{msg}}</p>
+                <input type="number" v-model.number.lazy="numa">
+                <p>数字：{{numa}}</p>
+                <input type="text" v-model.trim="trims">
+                <p>输入：{{trims}}</p>
+            </div>   
+            <hr>
+            <cpn></cpn>     
+            <!-- <cpn></cpn>      -->
+            <!-- <cpn></cpn>     -->
+            <hr> 
+            <p>
+                <!-- <cpn2 :imsg="msg" :ibooks="books"></cpn2> -->
+                <!--imsg-String -->
+                <!-- <cpn2 :ibooks="books"></cpn2> -->
+                <!-- imsg-required -->
+                <cpn2 :imsg="msg" :ibooks="books"></cpn2>
+            </p>
+            <hr>
+            <cpn3></cpn3>
+            <hr>
+            <p>子传父</p>
+            <child-father @fatherclick="itemClick"></child-father>
+            <p>子组件传过来的参数：{{child_val.name}}-{{child_val.id}}</p>
+            <hr>
+            <p>父子组件双向绑定</p>
+            <cross :number1="number0_1" :number2="number0_2" @changenumber1="changenumber1" @changenumber2="changenumber2"></cross>
+            <span>app-data-num1：{{number0_1}}-----app-data-num1：{{number0_2}}</span>
+            <hr>
+            <slot1></slot1>
+            <slot1><button>按钮</button></slot1>
+            <slot1><span>哈哈哈</span></slot1>
+            <slot2> <span slot="center">标题</span></slot2>
+            <slot2> <h3 slot="left" style="display:inline-block;">标题</h3></slot2>
+            <slot2> <button slot="right">标题</button></slot2>
+        </div>
+    </div>
+    <script type="text/x-template" id="cpn">
+        <div>
+            <h2>{{imsg}}</h2>
+            <p>内容，哈哈哈 prop</p>
+            <ul>
+                <li v-for="item in ibooks">{{item.name}}</li>
+            </ul>
+        </div>
+    </script>
+    <template id="cpn3">
+        <div>
+            <h2>标题3</h2>
+            <p>内容，哈哈哈</p>
+        </div>
+    </template>
+    <template id="child-father">
+        <div class="btns">
+            <button v-for="item in categories" @click="btnClick(item)">{{item.name}}</button>
+        </div>
+    </template>
+    <template id="cross">
+        <div>
+            <h3>{{dnumber1}}</h3>
+            <input type="text" v-model="dnumber1" @input="iptnumber1">
+            <h3>{{dnumber2}}</h3>
+            <input type="text" v-model="dnumber2" @input="iptnumber2">
+        </div>
+    </template>
+    <template id="slot1">
+        <div>
+            <h2>插槽</h2>
+            <p>这是插槽</p>
+            <slot>默认插槽内容</slot>
+        </div>
+    </template>
+    <template id="slot2">
+        <div>            
+            <slot name="left"><span>左插槽</span></slot>
+            <slot name="center">中插槽</slot>
+            <slot name="right">右插槽</slot>
+        </div>
+    </template>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script>
+    //    https://autumnfish.cn/api/joke/list?num=6
+    // http://wthrcdn.etouch.cn/weather_mini
+    const cpnC = Vue.extend({
+        template:`
+            <div>
+                <h2>这是标题</h2>
+                <p>哈哈哈哈哈</p>
+                <p>哈哈哈哈哈</p>
+                <p>哈哈哈哈哈</p>
+            </div>    
+        `
+    })
+    const cpn2 = Vue.component("cpn2",{
+        template:"#cpn",
+        // props:["imsg","ibooks"],
+        props:{
+            // imsg:String,
+            ibooks:Array,
+            imsg:{
+                type:String,
+                default:"默认值aaaaaa",
+                required:true
+            }
+        },
+        data(){
+            return {}
+        }
+    })
+    const cpn3 = Vue.component("cpn3",{
+        template:"#cpn3",
+        
+    })
+    // Vue.component("my-cpn",cpnC);
+    const childFather = Vue.component("childFather",{
+        template:'#child-father',
+        data(){
+            return{
+                categories:[
+                    {id:"aaa",name:"热门推荐"},
+                    {id:"bbb",name:"家用家电"},
+                    {id:"ccc",name:"洗护用品"},
+                    {id:"ddd",name:"男装"},
+                ]
+            }
+        },
+        methods:{
+            btnClick(item){
+               this.$emit("fatherclick",item)
+            }
+        }
+    })
+    const cross = Vue.component("cross",{
+        template:"#cross",
+        props:{
+            number1:Number,
+            number2:Number,
+        },
+        data(){
+            return{
+                dnumber1:this.number1,
+                dnumber2:this.number2
+            }
+        },
+        methods:{
+            iptnumber1(event){
+                let val = event.target.value;
+                this.$emit("changenumber1",val);
+                this.dnumber2 = this.dnumber1*100;
+                this.$emit("changenumber2",this.dnumber2)
+            },
+            iptnumber2(event){
+                let val = event.target.value;
+                this.$emit("changenumber2",val);
+                this.dnumber1 = this.dnumber2/100;
+                this.$emit("changenumber1",this.dnumber2)
+            }
+        }
+    })
+    const slot1 = Vue.component("slot1",{
+        template:"#slot1"
+    })  
+    var app = new Vue({
+        el:"#app",
+        data:{
+            number0_1:1,
+            number0_2:0,
+            child_val:{},
+            msg:"你好啊",
+            numa:"",
+            trims:"",
+            originHobbies:["篮球","足球","台球","高尔夫"],
+            fruits:[],
+            fruit:"香蕉",
+            hobbies:[],
+            isAgree:false,
+            sex:'男',
+            isUser:true,
+            books:[
+                {id:110,name:'代码大全',price:70,date:"2006-9",count:1},
+                {id:111,name:'unix编程',price:37,date:"2006-9",count:1},
+                {id:112,name:'计算原理',price:88,date:"2006-9",count:1},
+                {id:113,name:'操作系统',price:69,date:"2006-9",count:1},
+            ],
+            num:[1,2,3,4],
+            firstName:'Lebron',
+            lastName:'James',
+            isRed:false,
+            currentIndex:'',
+            weatherList:[],
+            city:'武汉',
+            joke_num:1,
+            jokes:["有一只蚂蚁死死地抱着大象的脖子"],
+            isShow:true,
+            age:17,
+            count:0,
+            message:"Hello Vue 小黑！！",
+            msg2:'<b>消息2</b>',
+            list_test:['张三','李四','王五'],
+            list_obj:{
+                "a":"Lili",
+                "b":"Hanmeimei",
+                "c":"Tom"
+            },
+            food:"西兰花",
+            notebook:["前端开发","java开发",'mysql'],
+            edit_area:'',
+            book_count:1,
+            book_disabled:false,
+        },
+        computed:{
+            fullName:function(){
+                return this.firstName + " " + this.lastName
+            },
+            totalPrice:function(){
+                
+                let result=0;
+                // for(let i=0;i<this.books.length;i++){
+                //     result +=this.books[i].price
+                // }
+                // return result;
+                // for(let i in this.books){
+                //     result += this.books[i].price
+                // }
+                // return result;
+                for(let book of this.books){
+                    result += book.price
+                }
+                return result;
+                // return this.books.reduce((total,num) => { return total +num })
+            },
+            totalPrice2(){
+                // let result=0;
+                // for(let item of this.books){
+                //     result += item.price*item.count
+                // };
+                // return result;
+                return this.books.reduce((pre,n)=>{
+                    return pre+n.price*n.count
+                },0)
+            }
+        },
+        methods:{
+            changenumber1(val){
+                this.number0_1 =  parseInt(val)
+            },
+            changenumber2(val){
+                this.number0_2 = parseInt(val)
+            },
+            itemClick(item){
+                console.log("子传父",item.name);
+                this.child_val = item;
+            },
+            plus(i){
+                this.books[i].count++;
+            },
+            less(i){
+                if(this.books[i].count>=1){
+                    this.books[i].count--;
+                }else{
+                    this.book_disabled = true;
+                }
+            },
+            del(index){
+                this.books.splice(index,1);
+            },
+            
+            changeStyle(){
+                this.isUser = !this.isUser;
+            },
+            onceFun(){
+                console.log("仅点击一次");
+            },
+            clickSubmit(){
+                console.log("阻止默认事件");
+            },
+            clickFather(){
+                console.log("点击h6父级");
+            },
+            testEvent(num,e){
+                console.log("点击子集,阻止冒泡",num,e);
+            },
+            getFullName(){
+                return this.firstName + " " + this.lastName;
+            },
+            isReds:function(index){
+                this.currentIndex = index
+            },
+            searchWeather:function(){
+                let that = this;
+                axios.get("http://wthrcdn.etouch.cn/weather_mini?city="+this.city)
+                .then(function(res){
+                    console.log(res);
+                    that.weatherList = res.data.data.forecast;
+                })
+            },
+            changeCity:function(city){
+                this.city=city;
+                this.searchWeather();
+            },
+            getJoke:function(){
+                let that = this;
+                axios.get("https://autumnfish.cn/api/joke/list?num="+that.joke_num).then(function(res){
+                    console.log(res);
+                    that.jokes =  res.data.jokes;
+                },function(err){
+                    console.log(err);
+                })
+            },
+            clearItem:function(){
+                this.notebook=[];
+            },
+            delItem:function(index){
+                this.notebook.splice(index,1);
+            },
+            addNotebook:function(){
+                this.notebook.push(this.edit_area);
+                this.edit_area="";
+            },
+            addAge:function(){
+                this.age++;
+                console.log(this.age);
+            },
+            changeIsShow:function(){
+                this.isShow = !this.isShow;
+            },
+            add:function(){
+                if(this.count>=10){
+                    alert("不能再加了")
+                }else{
+                    this.count +=1
+                }
+            },
+            sub:function(){
+                if(this.count<=0){
+                    alert("不能再减了")
+                }else{
+                    this.count -=1
+                }
+            },
+            doIt:function(){
+                alert("做It")
+            },
+            changeFood:function(){
+                console.log(this.food);
+                this.food+="炒蛋很好吃！"
+            }
+            ,getwx(){
+                console.log('getwx')
+                window.location.href='https://open.weixin.qq.com/connect/qrconnect?' +
+                'appid=wx944978b49864ca04&redirect_uri=http%3a%2f%2fwww.xxxxxx.com%2f'+window.location.pathname.substr(1)+'&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect';
+            }
+        },
+        filters:{
+            showPrice(price){
+                return "￥" + price.toFixed(2); 
+            }
+        },
+        components:{
+            cpn:cpnC,
+            slot1:slot1,
+            slot2:{
+                template:"#slot2"
+            },
+        }
+    })
+
+        var btns = document.getElementsByTagName("h6");
+        //for if es5没有作用域 
+        // var i;没有块级作用域概念 被后续循环覆盖掉 所以 每次点击 i=4
+        // for(var i=0;i<btns.length;i++){i
+        //     btns[i].addEventListener("click",function(){
+        //         console.log("点击第"+i+"个");
+        //     })
+        // }
+
+        // 闭包 函数是一个作用域 每个函数传进一个参数 具有作用域 不受影响不会被覆盖
+        // for(var i=0;i<btns.length;i++){
+        //     (function(num){
+        //         btns[num].addEventListener("click",function(){
+        //             console.log("点击第"+num+"个")
+        //         })
+        //     })(i)
+        // }
+
+        // es6
+        for(let i=0;i<btns.length;i++){
+            btns[i].addEventListener("click",function(){
+                console.log("点击第"+i+"个");
+            })
+        }
+        const nums=[10,20,111,222,444,40,50,false];
+        let newNums = nums.filter((n)=>{
+            return n>20
+        })
+        console.log(newNums);
+        let newNums2 = newNums.map((n)=>{
+            return n*2;
+        })
+        console.log(newNums2);
+        let total = newNums2.reduce((pre,n)=>{
+            return pre+n
+        },0)
+        console.log(total);
+    </script>
+    <script>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前后台联调往数据库存取数据</title>
+    
+</head>
+<body>
+    用户名：<input type="text" name="user" id="user"><br>
+    密码：<input type="password" name="pwd" id="pwd"><br>
+    <button id="btn1">注册</button>
+    <button id="btn2">登陆</button>
+    <button id="test">test</button>
+    <div>
+        <form action="" enctype="multipart/form-data">
+            <input type="file" id="uploadimg" accept="image/*" onchange="changepic()">
+            <div>
+                <img id="img" src="" alt="" style="width:200px;height:200px;border:1px solid #f00;">
+            </div>
+            <div id="upimg" style="display:inline-block;width:120px;height:32px;line-height: 30px;border:1px solid #ccc;text-align: center;">提交</div>
+        </form>
+        <br><br><br>
+        <form action="" enctype="multipart/form-data">
+            <input type="file" id="uploadimg2" accept="image/*" onchange="changepic2()" multiple>
+            <div id="imgs2" style="display:flex;flex-wrap:wrap;">
+                
+            </div>
+            <button id="upimg2">提交</button>
+        </form>
+    </div>
+    <hr>
+    <button id="geticon">获取iocn</button>
+    <div id="iconwrap">
+        
+    </div>
+    <script src="./jquery.min.js"></script>
+    <script>
+        let bases= ""
+         function changepic(){
+            var img = document.getElementById("img");
+            var fileDom = document.getElementById('uploadimg');
+            var file = fileDom.files[0];
+            console.log(file);            
+            var reads = new FileReader();
+            reads.readAsDataURL(file)
+            reads.onload=function(e){
+                bases = this.result
+                img.src=this.result
+            }     
+        };
+        // 上传1张
+        $("#upimg").click(function(){
+            console.log(bases,'上传图片....');
+            $.ajax({
+                url: "http://localhost:3200/uploadimg",
+                method: "post",
+                data:{
+                    avatar:bases
+                },
+                success:function(data){
+                    console.log('提交成功：',data);
+                }
+            })
+        })
+        //多张
+        function changepic2(){
+            var imgfiles = document.getElementById("uploadimg2").files;
+            
+            for(let item of imgfiles){
+                var reads2 = new FileReader();
+                let src=window.URL.createObjectURL(item);//bolg 格式
+                var src2=""    
+                var imgview = document.getElementById("imgs2")
+                           
+                reads2.onload = function(e){
+                    var img = new Image();                    
+                    src2 = this.result;//base64格式                    
+                    img.src = src2
+                    img.width=200
+                    img.height=200
+                    imgview.appendChild(img)
+                }
+                reads2.readAsDataURL(item);                
+            }
+        }
+        $(function(){ 
+            $("#btn1").click(function(){
+                $.ajax({
+                    // url: "/reg",
+                    url: "http://localhost:3100/reg",
+                    method: "post",
+                    data: {
+                        username: $("#user").val(),
+                        password: $("#pwd").val()
+                    },
+                    dataType: "json",
+                    success(json){
+                        console.log(json);
+                        if(json.err){
+                            alert("注册失败了"+json.msg);
+                        }else{
+                            alert("注册成功了");
+                        }
+                    },
+                    error(err){
+                        alert("请求出错了"+JSON.stringify(err));
+                    }
+                })
+            })
+            $("#btn2").click(function(){
+                // console.log($("#user").val(),$("#pwd").val());
+                $.ajax({
+                    // url: "/login",
+                    url: "http://localhost:3100/login",
+                    method: "get",
+                    data: {
+                        username: $("#user").val(),
+                        password: $("#pwd").val()
+                    },
+                    dataType: "json",
+                    success(json){
+                        console.log(json);
+                        if(json.err){
+                            alert("登陆失败了"+json.msg);
+                        }else{
+                            alert("登陆成功了");
+                        }
+                    },
+                    error(err){
+                        console.log("错误：",err);
+                        alert("请求出错了"+JSON.stringify(err));
+                    }
+                })
+            })
+            
+            $("#test").click(function(){
+                console.log($("#user").val(),$("#pwd").val());
+                $.ajax({
+                    url:"http://localhost:3200/add",
+                    method: "post",
+                    data: {
+                        username: $("#user").val(),
+                        pwd: $("#pwd").val()
+                    },
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                    }
+                })
+            })
+        })
+        // 获取图片
+        $("#geticon").click(function(){
+            $.ajax({
+                url:"http://localhost:3200/geticon",
+                method:'get',
+                success:function(data){
+                    reView(data)
+                }
+            })
+        })
+        function reView(data){       
+            for(let item of data){
+                let img = new Image();
+                img.width = 100;
+                img.height = 100
+                img.src=item
+                document.getElementById("iconwrap").appendChild(img)
+            }
+        }
+    </script>
+</body>
+</html>

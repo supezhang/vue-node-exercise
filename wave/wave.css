@@ -1,0 +1,70 @@
+.wave {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: rgb(118, 218, 255);
+  border-radius: 50%;
+}
+.wave::before,
+.wave::after{
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      top: 0;
+      left: 50%;
+      background-color: rgba(255, 255, 255, .4);
+      border-radius: 45%;
+      transform: translate(-50%, -70%) rotate(0);
+      animation: rotate 6s linear infinite;
+      z-index: 10;
+  }
+   
+  .wave::after {
+      border-radius: 47%;
+      background-color: rgba(255, 255, 255, .9);
+      transform: translate(-50%, -70%) rotate(0);
+      animation: rotate 10s linear -5s infinite;
+      z-index: 20;
+  }
+
+
+@keyframes rotate {
+  50% {
+      transform: translate(-50%, -73%) rotate(180deg);
+  } 100% {
+      transform: translate(-50%, -70%) rotate(360deg);
+  }
+}
+.box{
+  display:inline-block;
+  width:300px;
+  height:300px;
+  margin:200px;
+  overflow: hidden;
+  background-color: rgb(118, 218, 255);
+  position:relative;
+}
+.wave2{
+  display:inline-block;
+  width:600px;
+  height:600px;
+  margin:0;
+  background-color:#fff;
+  border-radius: 45%;
+  animation: waves 5s linear infinite;
+  position:absolute;
+  /* left:-150px;
+  bottom:20px; */
+  left:50%;
+  bottom:20px;
+  transform: translate(-50%,0) rotate(0deg);
+}
+@keyframes waves{
+  50%{
+    transform:translate(-50%,0) rotate(180deg)
+  }
+  100%{
+    transform:translate(-50%,0) rotate(360deg)
+  }
+}

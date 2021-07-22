@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+</head>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<body>
+<script type="text/javascript">
+    $.ajax({
+        type: "POST",
+        // url: "http://ali-weather.showapi.com/weatherhistory?area=%E4%B8%BD%E6%B1%9F&areaid=101291401&month=201601",
+        // url: "http://ali-weather.showapi.com/weatherhistory?area=深圳&month=202102",
+        url: "http://freecityid.mojicb.com/whapi/json/alicityweather/briefcondition?cityId=2&token=46e13b7aab9bb77ee3358c3b672a2ae4",
+        data: {city: '安顺'},
+        success: function(data) {
+            console.log(JSON.parse(data));
+        },
+        beforeSend: function(xhr) {
+            //xhr.setRequestHeader("Authorization", "APPCODE appCode");//此处是自己的appcode。
+              xhr.setRequestHeader("Authorization", "APPCODE 179bf33123df4b49a6d7d8aef5236983");//此处是自己的appcode。
+        }
+    });
+</script>
+</body>
+</html>
